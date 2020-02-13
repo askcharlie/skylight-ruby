@@ -17,19 +17,19 @@ module Skylight::Core::Normalizers::GraphQL
   end
 
   class Lex < Base
-    register "graphql.lex"
+    register "lex.graphql"
   end
 
   class Parse < Base
-    register "graphql.parse"
+    register "parse.graphql"
   end
 
   class Validate < Base
-    register "graphql.validate"
+    register "validate.graphql"
   end
 
   class ExecuteMultiplex < Base
-    register "graphql.execute_multiplex"
+    register "execute_multiplex.graphql"
     def normalize_after(trace, _span, _name, payload)
       # This is in normalize_after because the queries may not have
       # an assigned operation name before they are executed.
@@ -58,11 +58,11 @@ module Skylight::Core::Normalizers::GraphQL
   end
 
   class AnalyzeQuery < Base
-    register "graphql.analyze_query"
+    register "analyze_query.graphql"
   end
 
   class ExecuteQuery < Base
-    register "graphql.execute_query"
+    register "execute_query.graphql"
 
     def normalize(trace, name, payload)
       query_name = payload[:query]&.operation_name || ANONYMOUS
@@ -80,7 +80,7 @@ module Skylight::Core::Normalizers::GraphQL
   end
 
   class ExecuteQueryLazy < ExecuteQuery
-    register "graphql.execute_query_lazy"
+    register "execute_query_lazy.graphql"
 
     def normalize(trace, name, payload)
       if payload[:query]
