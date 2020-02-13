@@ -186,7 +186,7 @@ if enable
 
           TestAppSchema = GraphQL::Schema.define do
             # This tracer should be added by the probe
-            tracer(GraphQL::Tracing::ActiveSupportNotificationsTracing)
+            # tracer(GraphQL::Tracing::ActiveSupportNotificationsTracing)
             mutation(Mutations::MutationType)
             query(Types::QueryType)
           end
@@ -274,7 +274,7 @@ if enable
           end
 
           class TestAppSchema < GraphQL::Schema
-            tracer(GraphQL::Tracing::ActiveSupportNotificationsTracing)
+            # tracer(GraphQL::Tracing::ActiveSupportNotificationsTracing)
 
             mutation(Types::MutationType)
             query(Types::QueryType)
@@ -285,7 +285,6 @@ if enable
             # events. This is available under graphql >= 1.9 and (as currently documented)
             # will eventually become the new default interpreter.
             class InterpreterSchema < GraphQL::Schema
-              tracer(GraphQL::Tracing::ActiveSupportNotificationsTracing)
               use GraphQL::Execution::Interpreter
               use GraphQL::Analysis::AST
 
@@ -421,7 +420,7 @@ if enable
           let(:tracer_mod) { GraphQL::Tracing::ActiveSupportNotificationsTracing }
           let(:current_schema_tracers) do
             lambda do
-              TestApp.graphql_17? ? TestApp.current_schema.tracers : TestApp.current_schema.graphql_definition.tracers
+              TestApp.graphql_17? ? TestApp.current_schema.tracers : TestApp.current_schema.tracers
             end
           end
 
@@ -429,11 +428,11 @@ if enable
             -> { make_graphql_request(query: "query { #{query_inner} }") }
           end
 
-          xit "adds a tracer if one doesn't exist" do
+          it "adds a tracer if one doesn't exist" do
             expect(&make_request).to change(&current_schema_tracers).from([]).to([tracer_mod])
           end
 
-          xit "doesn't add a tracer if one exists" do
+          it "doesn't add a tracer if one exists" do
             TestApp.add_tracer(tracer_mod)
             expect(&make_request).not_to change(&current_schema_tracers).from([tracer_mod])
           end
