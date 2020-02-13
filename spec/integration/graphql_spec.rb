@@ -630,7 +630,7 @@ if enable
             ])
           end
 
-          xit "reports a compound error" do
+          it "reports a compound error" do
             queries = [
               "query myFavoriteDragonflies { missingField }",
               "query kindOfOkayDragonflies { missingField }"
@@ -656,7 +656,7 @@ if enable
             expect(data).to eq([
               ["app.rack.request", nil],
               ["app.graphql", "execute_multiplex.graphql"],
-              *expected_analysis_events(2).reject { |_, e| e["analyze.graphql"]},
+              *expected_analysis_events(2).reject { |_, e| e["analyze_query.graphql"]},
               ["app.graphql", "execute_query_lazy.graphql.multiplex"]
             ])
           end
